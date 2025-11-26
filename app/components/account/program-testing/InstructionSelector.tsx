@@ -59,7 +59,7 @@ export default function InstructionSelector({ idl }: Props) {
                     <div
                         role="combobox"
                         aria-expanded={open}
-                        className="form-control d-flex justify-content-between align-items-center"
+                        className="form-control d-flex justify-content-between align-items-center px-3"
                         style={{
                             minHeight: '45px',
                             cursor: 'pointer',
@@ -80,7 +80,7 @@ export default function InstructionSelector({ idl }: Props) {
                     align="start"
                 >
                     <Command className="instruction-command">
-                        <CommandInput placeholder="Search instructions..." />
+                        <CommandInput placeholder="Search instructions..." className="border-0" />
                         <CommandList>
                             <CommandEmpty className="text-muted">No instruction found.</CommandEmpty>
                             <CommandGroup>
