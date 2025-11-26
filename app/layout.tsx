@@ -10,6 +10,7 @@ import type { Viewport } from 'next';
 import dynamic from 'next/dynamic';
 import { Rubik } from 'next/font/google';
 import { Metadata } from 'next/types';
+import { Toaster } from './components/shared/ui/sonner';
 const SearchBar = dynamic(() => import('@components/SearchBar'), {
     ssr: false,
 });
@@ -48,6 +49,7 @@ export default function RootLayout({
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             </head>
             <body>
+                <Toaster />
                 <ScrollAnchorProvider>
                     <ClusterProvider>
                         <ClusterModal />

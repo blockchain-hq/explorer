@@ -92,3 +92,22 @@
         display: none;
     }
 }
+
+/* Instruction Selector Styles - matching Explorer theme */
+.instruction-item[data-selected='true'] {
+    background-color: #283838 !important;
+}
+
+.instruction-item:hover {
+    background-color: #283838 !important;
+}
+
+/* Make sure the command input border matches */
+[cmdk-input-wrapper] {
+    border-color: #282d2b !important;
+}
+
+/* Input placeholder color */
+[cmdk-input]::placeholder {
+    color: #6e84a3 !important;
+}

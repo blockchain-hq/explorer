@@ -73,6 +73,11 @@ const TABS_LOOKUP: { [id: string]: Tab[] } = {
     ],
     'bpf-upgradeable-loader': [
         {
+            path: 'testing',
+            slug: 'testing',
+            title: 'Testing',
+        },
+        {
             path: 'security',
             slug: 'security',
             title: 'Security',
@@ -392,7 +397,8 @@ export type MoreTabs =
     | 'program-multisig'
     | 'feature-gate'
     | 'token-extensions'
-    | 'attestation';
+    | 'attestation'
+    | 'testing';
 
 function MoreSection({ children, tabs }: { children: React.ReactNode; tabs: (JSX.Element | null)[] }) {
     return (
