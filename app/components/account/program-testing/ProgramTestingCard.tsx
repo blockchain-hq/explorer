@@ -8,6 +8,7 @@ import { PublicKey } from '@solana/web3.js';
 import InstructionSelector from './InstructionSelector';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import InstructionForm from './InstructionForm';
+import { UtilityDialog } from './UtilityDialog';
 
 export function ProgramTestingCard({ data, pubkey }: { data: UpgradeableLoaderAccountData; pubkey: PublicKey }) {
     const { url, cluster } = useCluster();
@@ -46,7 +47,10 @@ export function ProgramTestingCard({ data, pubkey }: { data: UpgradeableLoaderAc
                             {idl.metadata?.version && `v${idl.metadata.version}`}
                         </small>
                     </div>
-                    <WalletMultiButton />
+                    <div className="d-flex align-items-center">
+                        <WalletMultiButton />
+                        <UtilityDialog />
+                    </div>
                 </div>
             </div>
             <div className="card-body">

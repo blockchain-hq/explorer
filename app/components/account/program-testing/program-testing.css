@@ -151,3 +151,176 @@
     flex-shrink: 0;
     margin-top: 0.125rem;
 }
+
+/* Utility Dialog Styles */
+.utility-dialog-content {
+    /* Override Tailwind positioning to ensure center */
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+
+    /* Theme colors - matching the dark theme */
+    background-color: #161b19 !important;
+    border: 1px solid #343a37 !important;
+    color: #fff !important;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.utility-dialog-content .nav-tabs {
+    border-bottom: 1px solid #343a37;
+}
+
+.utility-dialog-content .nav-tabs .nav-link {
+    color: #86b8b6;
+    border: none;
+    padding: 0.5rem 1rem;
+    background: transparent;
+}
+
+.utility-dialog-content .nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: #1dd79b;
+}
+
+.utility-dialog-content .nav-tabs .nav-link.active {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #1dd79b;
+    color: #1dd79b;
+}
+
+.utility-dialog-content .nav-pills .nav-link {
+    color: #86b8b6;
+    background-color: transparent;
+    border: 1px solid #343a37;
+    font-size: 0.85rem;
+}
+
+.utility-dialog-content .nav-pills .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #fff;
+}
+
+.utility-dialog-content .nav-pills .nav-link.active {
+    background-color: rgba(29, 215, 155, 0.15);
+    border-color: rgba(29, 215, 155, 0.3);
+    color: #1dd79b;
+}
+
+.utility-dialog-content .form-control {
+    background-color: transparent;
+    border-color: #343a37;
+    color: #fff;
+}
+
+.utility-dialog-content .form-control::placeholder {
+    color: #86b8b6;
+    opacity: 0.6;
+}
+
+.utility-dialog-content .form-control:focus {
+    background-color: transparent;
+    border-color: #1dd79b;
+    color: #fff;
+    box-shadow: 0 0 0 0.15rem rgba(29, 215, 155, 0.15);
+}
+
+.utility-dialog-content .form-label {
+    color: #86b8b6;
+    font-size: 0.875rem;
+}
+
+.utility-dialog-content h6 {
+    color: #fff;
+}
+
+.utility-dialog-content .btn-primary {
+    background-color: #1dd79b;
+    border-color: #1dd79b;
+    color: #161b19;
+}
+
+.utility-dialog-content .btn-primary:hover {
+    background-color: #19c08a;
+    border-color: #19c08a;
+}
+
+.utility-dialog-content .btn-primary:disabled {
+    background-color: rgba(29, 215, 155, 0.5);
+    border-color: rgba(29, 215, 155, 0.5);
+}
+
+.utility-dialog-content .btn-secondary {
+    background-color: #282d2b;
+    border-color: #343a37;
+    color: #fff;
+}
+
+.utility-dialog-content .btn-secondary:hover {
+    background-color: #343a37;
+    border-color: #3d4442;
+}
+
+.utility-dialog-content .btn-outline-secondary {
+    border-color: #343a37;
+    color: #86b8b6;
+    background-color: transparent;
+}
+
+.utility-dialog-content .btn-outline-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #3d4442;
+    color: #fff;
+}
+
+.utility-dialog-content .btn-outline-primary {
+    border-color: #343a37;
+    color: #1dd79b;
+    background-color: transparent;
+}
+
+.utility-dialog-content .btn-outline-primary:hover {
+    background-color: rgba(29, 215, 155, 0.1);
+    border-color: rgba(29, 215, 155, 0.3);
+    color: #1dd79b;
+}
+
+.utility-dialog-content .input-group .btn {
+    border-color: #343a37;
+}
+
+.utility-dialog-content .testing-form-section {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: #282d2b;
+}
+
+.utility-dialog-content .text-muted {
+    color: #86b8b6 !important;
+}
+
+.utility-dialog-content .text-success {
+    color: #26e97e !important;
+}
+
+.utility-dialog-content .badge.bg-success {
+    background-color: rgba(38, 233, 126, 0.15) !important;
+    color: #26e97e;
+}
+
+.utility-dialog-content .alert-warning {
+    background-color: rgba(250, 98, 252, 0.1);
+    border-color: rgba(250, 98, 252, 0.2);
+    color: #fa62fc;
+}
+
+.utility-dialog-content a {
+    color: #1dd79b;
+}
+
+.utility-dialog-content a:hover {
+    color: #26e97e;
+}
