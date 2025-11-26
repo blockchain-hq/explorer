@@ -1,15 +1,10 @@
-import { Label } from '@/app/components/shared/ui/label';
-import { Input } from '@/app/components/shared/ui/input';
 import type { ModIdlAccount } from '@/app/types/idl-types';
 import SignerAccountInput from './SignerAccountInput';
 import { isAccountPda, getPDAStatusMessage, getPDADependencies } from '@/app/utils/program-testing/pda';
-import { Badge } from '@/app/components/shared/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/app/components/shared/ui/tooltip';
 import { Key, Loader, CheckCircle, AlertCircle, Info, RefreshCw } from 'react-feather';
 import type { Keypair } from '@solana/web3.js';
-import { cn } from '@/app/components/shared/utils';
 import { useCallback } from 'react';
-import { Button } from '@/app/components/shared/ui/button';
+import './program-testing.css';
 // import { useSavedAccounts } from '@/app/context/SavedAccountsContext';
 
 interface AccountsFormv2Props {
@@ -81,73 +76,48 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
 
         if (derivedStatus?.status === 'deriving') {
             return (
-                <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                        <Badge
-                            variant="outline"
-                            className="text-xs gap-2 bg-orange-500/20 text-orange-700 border-orange-500/30"
-                        >
-                            <Loader className="w-3 h-3 animate-spin" />
-                            Deriving
-                        </Badge>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p className="text-xs">Calculating PDA address...</p>
-                    </TooltipContent>
-                </Tooltip>
+                <span
+                    className="badge badge-pda-deriving d-inline-flex align-items-center gap-1"
+                    title="Calculating PDA address..."
+                >
+                    <Loader size={12} className="spinner-border spinner-border-sm" />
+                    Deriving
+                </span>
             );
         }
 
         if (derivedStatus?.status === 'ready') {
             return (
-                <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                        <Badge
-                            variant="outline"
-                            className="text-xs gap-2 bg-green-500/20 text-green-700 border-green-500/30"
-                        >
-                            <CheckCircle className="w-3 h-3" />
-                            Auto-PDA
-                        </Badge>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p className="text-xs">Address automatically derived</p>
-                    </TooltipContent>
-                </Tooltip>
+                <span
+                    className="badge badge-pda-ready d-inline-flex align-items-center gap-1"
+                    title="Address automatically derived"
+                >
+                    <CheckCircle size={12} />
+                    Auto-PDA
+                </span>
             );
         }
 
         if (derivedStatus?.status === 'error') {
             return (
-                <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                        <Badge variant="outline" className="text-xs gap-2 bg-red-500/20 text-red-700 border-red-500/30">
-                            <AlertCircle className="w-3 h-3" />
-                            Error
-                        </Badge>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                        <p className="text-xs">{derivedStatus.error}</p>
-                    </TooltipContent>
-                </Tooltip>
+                <span
+                    className="badge badge-pda-error d-inline-flex align-items-center gap-1"
+                    title={derivedStatus.error}
+                >
+                    <AlertCircle size={12} />
+                    Error
+                </span>
             );
         }
 
         return (
-            <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                    <Badge
-                        variant="outline"
-                        className="text-xs gap-2 bg-yellow-300/50 text-yellow-800 border-yellow-500/30"
-                    >
-                        <Key className="w-3 h-3" />
-                        PDA
-                    </Badge>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p className="text-xs">Program Derived Address - will auto-calculate</p>
-                </TooltipContent>
-            </Tooltip>
+            <span
+                className="badge badge-pda d-inline-flex align-items-center gap-1"
+                title="Program Derived Address - will auto-calculate"
+            >
+                <Key size={12} />
+                PDA
+            </span>
         );
     };
 
@@ -159,27 +129,27 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
 
         if (derivedStatus?.status === 'ready' && hasAddress) {
             return (
-                <div className="flex items-center gap-2 text-xs">
-                    <CheckCircle className="w-3 h-3 text-green-500" />
-                    <span className="text-green-600">Auto-derived successfully</span>
+                <div className="status-message status-success">
+                    <CheckCircle size={14} />
+                    <span>Auto-derived successfully</span>
                 </div>
             );
         }
 
         if (derivedStatus?.status === 'deriving') {
             return (
-                <div className="flex items-center gap-2 text-xs">
-                    <Loader className="w-3 h-3 text-orange-500 animate-spin" />
-                    <span className="text-orange-600">Calculating PDA address...</span>
+                <div className="status-message status-warning">
+                    <Loader size={14} className="spinner-border spinner-border-sm" />
+                    <span>Calculating PDA address...</span>
                 </div>
             );
         }
 
         if (derivedStatus?.status === 'error') {
             return (
-                <div className="flex items-start gap-2 text-xs">
-                    <AlertCircle className="w-3 h-3 text-red-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-red-600">{derivedStatus.error || 'Failed to derive PDA'}</span>
+                <div className="status-message status-error">
+                    <AlertCircle size={14} />
+                    <span>{derivedStatus.error || 'Failed to derive PDA'}</span>
                 </div>
             );
         }
@@ -195,13 +165,13 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
                 ];
 
                 return (
-                    <div className="flex items-start gap-2 text-xs">
-                        <Info className="w-3 h-3 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <div className="status-message status-info">
+                        <Info size={14} />
                         <div>
-                            <span className="text-blue-600 font-medium">Waiting for dependencies:</span>
-                            <ul className="mt-1 space-y-0.5 text-blue-600/80">
+                            <strong>Waiting for dependencies:</strong>
+                            <ul className="mb-0 mt-1 ps-3">
                                 {missingDeps.map(dep => (
-                                    <li key={dep}>• {dep}</li>
+                                    <li key={dep}>{dep}</li>
                                 ))}
                             </ul>
                         </div>
@@ -214,19 +184,26 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
     };
 
     const getInputClassName = (account: ModIdlAccount) => {
+        let className = 'form-control';
+
         if (!isAccountPda(account)) {
-            return cn('transition-all', validationErrors[account.name] && 'border-red-500');
+            if (validationErrors[account.name]) {
+                className += ' is-invalid';
+            }
+            return className;
         }
 
         const derivedStatus = derivedPDAs.get(account.name);
 
-        return cn(
-            'transition-all',
-            derivedStatus?.status === 'deriving' && 'bg-orange-500/5 border-orange-500/30 cursor-not-allowed',
-            derivedStatus?.status === 'ready' && 'bg-green-500/10 border-green-500/30',
-            derivedStatus?.status === 'error' && 'border-red-500',
-            validationErrors[account.name] && 'border-red-500'
-        );
+        if (derivedStatus?.status === 'deriving') {
+            className += ' pda-deriving';
+        } else if (derivedStatus?.status === 'ready') {
+            className += ' pda-ready';
+        } else if (derivedStatus?.status === 'error' || validationErrors[account.name]) {
+            className += ' pda-error';
+        }
+
+        return className;
     };
 
     if (!accounts) return null;
@@ -243,23 +220,17 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
     // };
 
     return (
-        <div className="flex flex-col bg-card border border-border/50 rounded-md p-4 space-y-4">
-            <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold text-foreground/90 uppercase tracking-wider">
-                    {accounts.length > 0 ? `Accounts (${accounts.length})` : 'No Accounts'}
-                </h4>
+        <div className="testing-form-section">
+            <div className="d-flex align-items-center justify-content-between mb-3">
+                <h4 className="mb-0">{accounts.length > 0 ? `Accounts (${accounts.length})` : 'No Accounts'}</h4>
 
                 {accounts.length > 0 && (
-                    <div className="flex gap-2">
+                    <div className="d-flex gap-2">
                         {accounts.filter(isAccountPda).length > 0 && (
-                            <Badge variant="outline" className="text-xs">
-                                {accounts.filter(isAccountPda).length} PDA
-                            </Badge>
+                            <span className="badge bg-secondary">{accounts.filter(isAccountPda).length} PDA</span>
                         )}
                         {accounts.filter(a => a.signer).length > 0 && (
-                            <Badge variant="outline" className="text-xs">
-                                {accounts.filter(a => a.signer).length} Signer
-                            </Badge>
+                            <span className="badge bg-secondary">{accounts.filter(a => a.signer).length} Signer</span>
                         )}
                     </div>
                 )}
@@ -277,37 +248,29 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
                 ) : (
                     <div
                         key={account.name}
-                        className={cn(
-                            'grid w-full items-center gap-3 p-3 rounded-lg transition-all',
-                            isAccountPda(account) &&
-                                derivedPDAs.get(account.name)?.status === 'ready' &&
-                                'bg-green-500/5'
-                        )}
+                        className={
+                            isAccountPda(account) && derivedPDAs.get(account.name)?.status === 'ready'
+                                ? 'account-row-pda-ready'
+                                : 'mb-3'
+                        }
                     >
-                        <div className="flex flex-row items-center gap-2 w-full">
-                            <Label htmlFor={account.name} className="text-sm font-medium text-foreground text-left">
+                        <div className="d-flex align-items-center justify-content-between mb-2">
+                            <label htmlFor={account.name} className="form-label mb-0">
                                 {account.name}
-                            </Label>
+                            </label>
 
-                            <div className="ml-auto flex items-center gap-2">
+                            <div className="d-flex align-items-center gap-2">
                                 {account.writable && (
-                                    <Tooltip delayDuration={100}>
-                                        <TooltipTrigger asChild>
-                                            <Badge variant="outline" className="text-xs">
-                                                Writable
-                                            </Badge>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p className="text-xs">This account will be modified</p>
-                                        </TooltipContent>
-                                    </Tooltip>
+                                    <span className="badge bg-secondary" title="This account will be modified">
+                                        Writable
+                                    </span>
                                 )}
                                 {getPDABadge(account)}
                             </div>
                         </div>
 
-                        <div className="flex gap-2">
-                            <Input
+                        <div className="d-flex gap-2">
+                            <input
                                 id={account.name}
                                 type="text"
                                 value={accountsAddressMap.get(account.name) ?? ''}
@@ -330,30 +293,22 @@ const AccountsFormv2 = (props: AccountsFormv2Props) => {
                             </datalist>
 
                             {isAccountPda(account) && derivedPDAs.get(account.name)?.status === 'ready' && (
-                                <Tooltip delayDuration={100}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="icon"
-                                            onClick={() => handleClearPDA(account.name)}
-                                            className="flex-shrink-0"
-                                        >
-                                            <RefreshCw className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p className="text-xs">Clear and re-derive</p>
-                                    </TooltipContent>
-                                </Tooltip>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => handleClearPDA(account.name)}
+                                    title="Clear and re-derive"
+                                >
+                                    <RefreshCw size={16} />
+                                </button>
                             )}
                         </div>
 
                         {getPDAStatus(account)}
 
                         {validationErrors[account.name] && (
-                            <div className="flex items-start gap-2 text-xs text-red-500">
-                                <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                            <div className="invalid-feedback d-flex">
+                                <AlertCircle size={14} />
                                 <span>{validationErrors[account.name]}</span>
                             </div>
                         )}

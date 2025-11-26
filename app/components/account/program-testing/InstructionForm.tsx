@@ -1,9 +1,8 @@
 import type { IdlInstruction, ModIdlAccount } from '@/app/types/idl-types';
 import type { Idl } from '@coral-xyz/anchor';
+import type { Keypair } from '@solana/web3.js';
 import ArgumentForm from './ArgumentForm';
 import AccountsFormv2 from './AccountForm';
-import { Button } from '@/app/components/shared/ui/button';
-import { ScrollArea } from '@/app/components/shared/ui/scroll-area';
 import { Loader, ArrowRight } from 'react-feather';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { validateField } from '@/app/utils/program-testing/validation';
@@ -14,6 +13,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 // import type { TransactionRecord } from '@/hooks/useTransactionHistory';
 import { useSavedAccounts } from '@/app/providers/program-testing/saved-accounts';
 import { useProgramTesting } from '@/app/providers/program-testing';
+import './program-testing.css';
 
 interface InstructionFormv2Props {
     instruction: IdlInstruction | null;
@@ -48,7 +48,7 @@ const InstructionFormv2 = (props: InstructionFormv2Props) => {
     const { addSavedAccount } = useSavedAccounts();
 
     // Load account data from localStorage on mount
-    const [accountsAddressMap, setAccountsAddressMap] = useState(() => {
+    const [accountsAddressMap, setAccountsAddressMap] = useState<Map<string, string | null>>(() => {
         if (!accountsDataKey) return state.accountsAddresses;
         try {
             const saved = localStorage.getItem(accountsDataKey);
@@ -68,7 +68,7 @@ const InstructionFormv2 = (props: InstructionFormv2Props) => {
         return state.accountsAddresses;
     });
 
-    const [signersKeypairs, setSignersKeypairs] = useState(state.signersKeypairs);
+    const [signersKeypairs, setSignersKeypairs] = useState<Map<string, Keypair>>(state.signersKeypairs);
 
     // Save form data to localStorage
     useEffect(() => {
@@ -272,50 +272,44 @@ const InstructionFormv2 = (props: InstructionFormv2Props) => {
     if (!instruction) return null;
 
     return (
-        <form
-            className="w-full max-w-[800px] bg-card border border-border/50 rounded-md p-4 space-y-8"
-            id="instruction-form"
-            onSubmit={handleSubmit}
-        >
-            <ScrollArea className="h-[60vh] rounded-md overflow-hidden">
-                <div className="space-y-4">
-                    <ArgumentForm
-                        args={instruction.args ?? null}
-                        formData={formData}
-                        onChange={setFormData}
-                        validationErrors={validationErrors}
-                    />
-                    <AccountsFormv2
-                        accounts={(instruction.accounts as ModIdlAccount[]) ?? null}
-                        accountsAddressMap={accountsAddressMap}
-                        onAccountChange={setAccountsAddressMap}
-                        signersKeypairs={signersKeypairs}
-                        onSignerChange={setSignersKeypairs}
-                        validationErrors={validationErrors}
-                        formData={formData}
-                        derivedPDAs={derivedPDAs}
-                    />
-                </div>
-            </ScrollArea>
+        <form id="instruction-form" onSubmit={handleSubmit}>
+            <div style={{ maxHeight: '60vh', overflowY: 'auto', marginBottom: '1.5rem' }}>
+                <ArgumentForm
+                    args={instruction.args ?? null}
+                    formData={formData}
+                    onChange={setFormData}
+                    validationErrors={validationErrors}
+                />
+                <AccountsFormv2
+                    accounts={(instruction.accounts as ModIdlAccount[]) ?? null}
+                    accountsAddressMap={accountsAddressMap}
+                    onAccountChange={setAccountsAddressMap}
+                    signersKeypairs={signersKeypairs}
+                    onSignerChange={setSignersKeypairs}
+                    validationErrors={validationErrors}
+                    formData={formData}
+                    derivedPDAs={derivedPDAs}
+                />
+            </div>
 
-            <div className="flex flex-row justify-end items-center gap-2">
-                <Button
+            <div className="d-flex justify-content-end">
+                <button
                     disabled={isExecuting}
                     id="run-instruction-btn"
                     type="submit"
-                    className=" transition-[width,transform,opacity] duration-300 ease-in-out"
+                    className="btn btn-primary d-flex align-items-center gap-2"
                 >
                     {isExecuting ? (
                         <>
-                            <Loader className="w-4 h-4 animate-spin" /> Running...
+                            <Loader size={16} className="spinner-border spinner-border-sm" /> Running...
                         </>
                     ) : (
                         <>
-                            <ArrowRight />
+                            <ArrowRight size={16} />
                             Run Instruction
                         </>
                     )}
-                </Button>
+                </button>
             </div>
         </form>
     );

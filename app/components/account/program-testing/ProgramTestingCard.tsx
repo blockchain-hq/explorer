@@ -50,8 +50,6 @@ export function ProgramTestingCard({ data, pubkey }: { data: UpgradeableLoaderAc
                 </div>
             </div>
             <div className="card-body">
-                <p>Testing interface for program: {pubkey.toBase58()}</p>
-
                 <InstructionSelector idl={idl} />
 
                 {currentInstruction && <InstructionForm instruction={currentInstruction} idl={idl} />}

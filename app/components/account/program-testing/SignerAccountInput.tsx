@@ -1,6 +1,3 @@
-import { Input } from '@/app/components/shared/ui/input';
-import { Label } from '@/app/components/shared/ui/label';
-import { Button } from '@/app/components/shared/ui/button';
 import { useEffect, useState } from 'react';
 import { Keypair } from '@solana/web3.js';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/shared/ui/popover';
@@ -13,11 +10,9 @@ import {
     CommandItem,
     CommandList,
 } from '@/app/components/shared/ui/command';
-import { cn } from '@/app/components/shared/utils';
 import type { ModIdlAccount } from '@/app/types/idl-types';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/app/components/shared/ui/tooltip';
-import { Badge } from '@/app/components/shared/ui/badge';
 import { useWallet } from '@solana/wallet-adapter-react';
+import './program-testing.css';
 
 type OptionType = 'Connected Wallet' | 'Generate New' | 'Manual Input';
 const options: OptionType[] = ['Connected Wallet', 'Generate New', 'Manual Input'];
@@ -38,45 +33,13 @@ const SignerAccountInput = (props: SignerAccountInputProps) => {
     const getIconForMode = (mode: OptionType) => {
         switch (mode) {
             case 'Connected Wallet': {
-                return (
-                    <>
-                        <TooltipTrigger>
-                            <User />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p className="w-64">Use the connected wallet as the signer account.</p>
-                        </TooltipContent>
-                    </>
-                );
+                return <User size={16} />;
             }
             case 'Generate New': {
-                return (
-                    <>
-                        <TooltipTrigger>
-                            <Plus />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p className="w-64">Generate a new keypair as the signer account.</p>
-                        </TooltipContent>
-                    </>
-                );
+                return <Plus size={16} />;
             }
             case 'Manual Input': {
-                return (
-                    <>
-                        <TooltipTrigger>
-                            <PenTool />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p className="w-64">
-                                Manually input the public key as the signer account.{' '}
-                                <span className="text-xs text-yellow-500">
-                                    Doesn't work since Private Key is needed to sign the transaction.
-                                </span>
-                            </p>
-                        </TooltipContent>
-                    </>
-                );
+                return <PenTool size={16} />;
             }
             default: {
                 return null;
@@ -96,71 +59,62 @@ const SignerAccountInput = (props: SignerAccountInputProps) => {
     }, [selectedMode, publicKey]);
 
     return (
-        <div className="grid w-full items-center gap-3">
-            <div className="flex flex-row items-center gap-2 w-full">
-                <Label htmlFor="signerAccount" className="text-sm font-medium text-foreground text-left">
+        <div className="mb-3">
+            <div className="d-flex align-items-center justify-content-between mb-2">
+                <label htmlFor="signerAccount" className="form-label mb-0 d-flex align-items-center gap-2">
                     {account?.name}
-                </Label>
-                <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
-                        <Info className="w-4 h-4" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p className="w-64">
-                            This is a signer account. In most cases, it's the wallet connected to the app. You can use
-                            the dropdown for more options.
-                        </p>
-                    </TooltipContent>
-                </Tooltip>
+                    <span title="This is a signer account. In most cases, it's the wallet connected to the app. You can use the dropdown for more options.">
+                        <Info size={14} className="text-muted" />
+                    </span>
+                </label>
 
-                <Badge variant="outline" className="self-end ml-auto text-xs gap-2 text-black bg-yellow-300/50 ">
-                    <PenTool className="w-4 h-4" />
+                <span className="badge badge-pda d-inline-flex align-items-center gap-1">
+                    <PenTool size={12} />
                     Signer
-                </Badge>
+                </span>
             </div>
 
-            <div className="flex flex-row items-center gap-2 bg-transparent border border-input rounded-md px-3 h-9 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring transition-colors">
-                {selectedMode === 'Manual Input' ? (
-                    <Tooltip delayDuration={100}>
-                        <TooltipTrigger>
-                            <AlertTriangle color="yellow" className="w-4 h-4 flex-shrink-0" />
-                        </TooltipTrigger>
-                        <TooltipContent className="w-64">
-                            <span className="text-xs text-yellow-500">
-                                Since private key is required for signing transaction, just pubkey doesn't work.
-                            </span>
-                        </TooltipContent>
-                    </Tooltip>
-                ) : selectedMode === 'Connected Wallet' && signerAccountAddress ? (
-                    <CheckCircle color="green" className="w-4 h-4 flex-shrink-0" />
-                ) : selectedMode === 'Generate New' && signerAccountKeypair ? (
-                    <CheckCircle color="green" className="w-4 h-4 flex-shrink-0" />
-                ) : null}
+            <div className="input-group">
+                <span className="input-group-text">
+                    {selectedMode === 'Manual Input' ? (
+                        <span title="Since private key is required for signing transaction, just pubkey doesn't work.">
+                            <AlertTriangle size={16} color="#ffc107" />
+                        </span>
+                    ) : selectedMode === 'Connected Wallet' && signerAccountAddress ? (
+                        <CheckCircle size={16} color="#28a745" />
+                    ) : selectedMode === 'Generate New' && signerAccountKeypair ? (
+                        <CheckCircle size={16} color="#28a745" />
+                    ) : null}
+                </span>
 
-                <Input
+                <input
                     id="signerAccount"
                     type="text"
+                    className="form-control"
                     placeholder="Enter value for signer account"
-                    className="border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 h-auto"
                     value={signerAccountAddress ?? ''}
                     onChange={e => onChange(e.target.value, null)}
                 />
 
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
-                        <Button
-                            variant="ghost"
+                        <button
+                            type="button"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[200px] justify-between border-none bg-transparent hover:bg-transparent"
+                            className="btn btn-outline-secondary d-flex align-items-center justify-content-between"
+                            style={{ minWidth: '180px' }}
                         >
-                            {selectedMode ? options.find(mode => mode === selectedMode) : 'Select mode...'}
-                            <ChevronDown className="opacity-50" />
-                        </Button>
+                            <span className="d-flex align-items-center gap-2">
+                                {getIconForMode(selectedMode)}
+                                {selectedMode ? options.find(mode => mode === selectedMode) : 'Select mode...'}
+                            </span>
+                            <ChevronDown size={16} className="text-muted ms-2" />
+                        </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0 border border-border/50 rounded-md">
-                        <Command className="bg-card ">
-                            <CommandInput placeholder="Search mode..." className="h-9" />
+                    <PopoverContent className="p-0 instruction-popover" style={{ width: '200px' }}>
+                        <Command className="instruction-command">
+                            <CommandInput placeholder="Search mode..." />
                             <CommandList>
                                 <CommandEmpty>No mode found.</CommandEmpty>
                                 <CommandGroup>
@@ -172,15 +126,18 @@ const SignerAccountInput = (props: SignerAccountInputProps) => {
                                                 setSelectedMode(currentValue as OptionType);
                                                 setOpen(false);
                                             }}
+                                            className="instruction-item"
                                         >
-                                            <Tooltip delayDuration={100}>{getIconForMode(mode)}</Tooltip>
-
-                                            {mode}
+                                            <span className="d-flex align-items-center gap-2">
+                                                {getIconForMode(mode)}
+                                                {mode}
+                                            </span>
                                             <Check
-                                                className={cn(
-                                                    'ml-auto',
-                                                    selectedMode === mode ? 'opacity-100' : 'opacity-0'
-                                                )}
+                                                size={16}
+                                                style={{
+                                                    marginLeft: 'auto',
+                                                    opacity: selectedMode === mode ? 1 : 0,
+                                                }}
                                             />
                                         </CommandItem>
                                     ))}

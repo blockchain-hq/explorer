@@ -1,13 +1,14 @@
 'use client';
 
+import type { Keypair } from '@solana/web3.js';
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
 export type InstructionFormData = Record<string, any>;
 
 export type InstructionState = {
     formData: InstructionFormData;
-    accountsAddresses: Map<string, string>;
-    signersKeypairs: Map<string, string>;
+    accountsAddresses: Map<string, string | null>;
+    signersKeypairs: Map<string, Keypair>;
     lastUpdated?: Date;
 };
 
@@ -44,9 +45,9 @@ export function ProgramTestingProvider({ children }: { children: ReactNode }) {
         (name: string): InstructionState => {
             return (
                 instructionsState[name] || {
-                    accountsAddresses: new Map(),
+                    accountsAddresses: new Map<string, string | null>(),
                     formData: {},
-                    signersKeypairs: new Map(),
+                    signersKeypairs: new Map<string, Keypair>(),
                 }
             );
         },

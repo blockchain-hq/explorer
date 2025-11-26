@@ -1,0 +1,153 @@
+/* Program Testing Component Styles */
+
+/* Instruction Selector Popover */
+.instruction-popover {
+    background-color: var(--bs-body-bg);
+    border-color: var(--bs-border-color);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.5);
+}
+
+.instruction-command {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.instruction-command input {
+    background-color: transparent;
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+
+.instruction-item {
+    color: var(--bs-body-color);
+    cursor: pointer;
+}
+
+.instruction-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.instruction-item[aria-selected='true'] {
+    background-color: rgba(29, 215, 155, 0.15);
+    color: var(--bs-primary);
+}
+
+.instruction-item svg {
+    color: var(--bs-primary);
+}
+
+/* Form sections */
+.testing-form-section {
+    background-color: transparent;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.testing-form-section h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    color: var(--bs-body-color);
+}
+
+/* Badge styles for PDA and account types */
+.badge-pda {
+    background-color: rgba(250, 98, 252, 0.15);
+    color: #fa62fc;
+    border: 1px solid rgba(250, 98, 252, 0.3);
+    font-size: 0.75rem;
+}
+
+.badge-pda-ready {
+    background-color: rgba(38, 233, 126, 0.15);
+    color: #26e97e;
+    border: 1px solid rgba(38, 233, 126, 0.3);
+    font-size: 0.75rem;
+}
+
+.badge-pda-deriving {
+    background-color: rgba(250, 98, 252, 0.15);
+    color: #fa62fc;
+    border: 1px solid rgba(250, 98, 252, 0.3);
+    font-size: 0.75rem;
+}
+
+.badge-pda-error {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    font-size: 0.75rem;
+}
+
+/* Account input with PDA states */
+.form-control.pda-deriving {
+    background-color: rgba(250, 98, 252, 0.05);
+    border-color: rgba(250, 98, 252, 0.3);
+    cursor: not-allowed;
+}
+
+.form-control.pda-ready {
+    background-color: rgba(38, 233, 126, 0.05);
+    border-color: rgba(38, 233, 126, 0.3);
+}
+
+.form-control.pda-error {
+    border-color: #dc3545;
+}
+
+/* Account row with PDA highlight */
+.account-row-pda-ready {
+    background-color: rgba(38, 233, 126, 0.03);
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Status messages */
+.status-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.status-message.status-success {
+    color: #26e97e;
+}
+
+.status-message.status-error {
+    color: #dc3545;
+}
+
+.status-message.status-warning {
+    color: #fa62fc;
+}
+
+.status-message.status-info {
+    color: #1dd79b;
+}
+
+.status-message svg {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+/* Validation errors */
+.invalid-feedback {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+    margin-top: 0.5rem;
+}
+
+.invalid-feedback svg {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}

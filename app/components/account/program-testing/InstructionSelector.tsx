@@ -5,6 +5,7 @@ import { useHotkeys } from '@mantine/hooks';
 import { Idl } from '@coral-xyz/anchor';
 import { useCallback, useMemo, useState } from 'react';
 import { Check, ChevronDown } from 'react-feather';
+import './program-testing.css';
 import {
     Command,
     CommandEmpty,
@@ -52,9 +53,7 @@ export default function InstructionSelector({ idl }: Props) {
 
     return (
         <div className="mb-4">
-            <label className="form-label" style={{ color: '#95aac9' }}>
-                Select Instruction
-            </label>
+            <label className="form-label">Select Instruction</label>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <div
@@ -64,59 +63,39 @@ export default function InstructionSelector({ idl }: Props) {
                         style={{
                             minHeight: '45px',
                             cursor: 'pointer',
-                            backgroundColor: '#1e2423',
-                            borderColor: '#282d2b',
-                            color: selectedInstruction ? '#fff' : '#6e84a3',
                         }}
                         onClick={() => setOpen(!open)}
                     >
-                        <span>{selectedInstruction ? selectedInstruction.label : 'Search for an instruction...'}</span>
-                        <ChevronDown size={16} style={{ opacity: 0.5 }} />
+                        <span className={selectedInstruction ? '' : 'text-muted'}>
+                            {selectedInstruction ? selectedInstruction.label : 'Search for an instruction...'}
+                        </span>
+                        <ChevronDown size={16} className="text-muted" />
                     </div>
                 </PopoverTrigger>
                 <PopoverContent
-                    className="p-0"
+                    className="p-0 instruction-popover"
                     style={{
-                        backgroundColor: '#1e2423',
-                        borderColor: '#282d2b',
-                        boxShadow: '0 0.75rem 1.5rem rgba(20, 24, 22, 0.5)',
                         width: 'var(--radix-popover-trigger-width)',
                     }}
                     align="start"
                 >
-                    <Command
-                        style={{
-                            backgroundColor: '#1e2423',
-                            color: '#95aac9',
-                        }}
-                    >
-                        <CommandInput
-                            placeholder="Search instructions..."
-                            style={{
-                                backgroundColor: '#1e2423',
-                                borderColor: '#282d2b',
-                                color: '#fff',
-                            }}
-                        />
-                        <CommandList style={{ backgroundColor: '#1e2423' }}>
-                            <CommandEmpty style={{ color: '#6e84a3' }}>No instruction found.</CommandEmpty>
-                            <CommandGroup style={{ backgroundColor: '#1e2423' }}>
+                    <Command className="instruction-command">
+                        <CommandInput placeholder="Search instructions..." />
+                        <CommandList>
+                            <CommandEmpty className="text-muted">No instruction found.</CommandEmpty>
+                            <CommandGroup>
                                 {instructions.map(instruction => (
                                     <CommandItem
                                         key={instruction.value}
                                         value={instruction.value}
                                         onSelect={handleSelect}
-                                        style={{
-                                            color: '#fff',
-                                            cursor: 'pointer',
-                                        }}
                                         className="instruction-item"
                                     >
                                         <Check
-                                            className="mr-2 h-4 w-4"
+                                            className="me-2"
+                                            size={16}
                                             style={{
                                                 opacity: instruction.value === activeInstruction ? 1 : 0,
-                                                color: '#2c7be5',
                                             }}
                                         />
                                         {instruction.label}
@@ -128,12 +107,8 @@ export default function InstructionSelector({ idl }: Props) {
                 </PopoverContent>
             </Popover>
             {selectedInstruction && (
-                <small className="mt-2 d-block" style={{ color: '#6e84a3' }}>
-                    Press{' '}
-                    <kbd style={{ backgroundColor: '#12302b', color: '#fff', padding: '2px 8px', borderRadius: '4px' }}>
-                        Ctrl+K
-                    </kbd>{' '}
-                    to quickly search
+                <small className="mt-2 d-block text-muted">
+                    Press <kbd>Ctrl+K</kbd> to quickly search
                 </small>
             )}
         </div>
